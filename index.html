@@ -11,14 +11,14 @@
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
     :root {
       --bg: #f7f5f0;
-      --paper: #fffdfa;
+      --paper: #fff;
       --ink: #1f1f1f;
       --muted: #777;
-      --line: #dfd9cd;
-      --soft: #efebe3;
+      --line: #ddd;
+      --soft: #f5f5f5;
       --dark: #222;
       --border: #ddd;
-      --radius: 18px;
+      --radius: 10px;
     }
 
     * {
@@ -96,11 +96,7 @@
     }
 
     .guide {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 22px;
-      margin-bottom: 18px
+      margin-bottom: 15px;
     }
 
     .guide h2 {
@@ -124,7 +120,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 22px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, .035)
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1)
     }
 
     .meta {
@@ -132,7 +128,7 @@
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 14px;
-      color: var(--muted);
+      color: #3f51b5;
       font-size: 13px
     }
 
@@ -179,7 +175,6 @@
       margin: 14px 0 0;
       color: #333;
       font-size: 14px;
-      border-top: 1px solid var(--line);
       padding-top: 12px
     }
 
@@ -206,19 +201,19 @@
       margin-top: 12px;
       white-space: pre-line;
       font-size: 15px;
-      color: #222
-    }
-
-    .practice {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      margin-top: 14px
+      color: #464646
     }
 
     .mini {
-      font-size: 14px;
       color: #3f51b5;
+       font-size: 15px;
+        background-color: #f5f5f5;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+    .goal{
+      text-decoration: underline;
+      color:#b53f3f;
     }
 
     .hidden {
@@ -268,7 +263,7 @@
 
     .card.flow-only details,
     .card.flow-only .answer,
-    .card.flow-only .practice {
+    .card.flow-only {
       display: none
     }
 
@@ -292,37 +287,26 @@
       }
 
       h1 {
-        font-size: 29px;
+        font-size: 28px;
         font-family: "Montserrat", sans-serif;
       }
 
       .toolbar {
-        gap: 9px;
-        padding: 4px 0 14px
+        gap: 5px;
+        padding: 4px 0 10px
       }
 
       button {
-        font-size: 18px;
-        line-height: 18px;
+        font-size: 17px;
+        line-height: 17px;
         padding: 12px 20px;
       }
 
-      .guide {
-        padding: 20px;
-        border-radius: 20px
-      }
 
-      .guide h2 {
-        font-size: 22px
-      }
-
-      .guide p {
-        font-size: 17px
-      }
 
       .card {
         padding: 15px;
-        border-radius: 20px
+        border-radius: 10px
       }
 
       .meta {
@@ -340,7 +324,7 @@
         font-size: 18px;
         line-height: 1.45;
         padding: 14px 14px;
-        border-radius: 16px
+        border-radius: 10px
       }
 
       .num {
@@ -361,13 +345,10 @@
       }
 
       .answer {
-        font-size: 18px;
-        line-height: 1.68
+        font-size: 16px;
+        line-height: 1.3
       }
 
-      .mini {
-        font-size: 15px
-      }
 
       .audio-link {
         font-size: 17px;
@@ -427,7 +408,7 @@
 <body>
   <header>
     <div class="wrap title">
-      <h1>OPIC Flow Practice v2</h1>
+      <h1>OPIC Flow Practice</h1>
       <div class="toolbar">
         <button class="active" data-filter="all">All</button>
         <button data-filter="set1">Set 01</button>
@@ -444,11 +425,8 @@
   </header>
   <main class="wrap">
     <section class="guide">
-      <h2>How to use this</h2>
-      <p><b>Step 1.</b>Speak the answer without reading the full script.</p>
-      <p><b>Step 2.</b> Open the answer and shadow it once.</p>
-      <p><b>Step 3.</b> Close it and speak again using only the flow.</p>
-      <p><b>Goal.</b> Do not memorize every word. Memorize the order of ideas.</p>
+      <div class="practice"><div class="mini"><b>Practice</b> :  flow → speak(40 to 60 sec) → open answer → shadow → speak again &nbsp;&nbsp;👉 <span class="goal">Memorize the order of ideas.</span></div> </div>
+      <p> </p>
       <!-- <div class="audio-box">
         <a class="audio-link" href="https://naver.me/5WUARDHG" target="_blank" rel="noopener">Set 01 MP3 <span>Open
             audio</span></a>
@@ -829,7 +807,7 @@ Most importantly, I want to enjoy life while continuing to grow.`}
       <h3 class="q">${d.title}</h3>
       <div class="flow">${d.flow.map((s, idx) => `<div class="step"><span class="num">${idx + 1}</span><span>${s}</span></div>`).join('')}</div>
       <div class="key"><b>Key:</b> ${d.keys}</div>
-      <div class="practice"><span class="mini"><b>Practice</b><br> flow → speak(40 to 60 sec) → open answer → shadow → close → speak again</span></div>
+      
       <details><summary>Full answer</summary><div class="answer">${d.answer}</div></details>`;
         cards.appendChild(el);
       });
