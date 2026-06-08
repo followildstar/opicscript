@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OPIC Flow Practice v2</title>
+  <style>
+        @charset "UTF-8";
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+    :root {
+      --bg: #f7f5f0;
+      --paper: #fffdfa;
+      --ink: #1f1f1f;
+      --muted: #777;
+      --line: #dfd9cd;
+      --soft: #efebe3;
+      --dark: #222;
+      --border: #ddd;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--ink);
+      font-family: Pretendard, sans-serif;
+      line-height: 1.55
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid var(--line)
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px
+    }
+
+    .title {
+      padding: 18px 0 10px
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: -.03em
+    }
+
+    .sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      overflow: auto;
+      padding: 10px 0 16px
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--dark);
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+    }
+
+    button.active,
+    button:hover {
+      background: var(--dark);
+      color: white
+    }
+
+    main {
+      padding: 18px 0 80px
+    }
+
+    .guide {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 18px
+    }
+
+    .guide h2 {
+      font-size: 19px;
+      margin: 0 0 12px
+    }
+
+    .guide p {
+      margin: 6px 0;
+      color: #333
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .035)
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .q {
+      font-size: 17px;
+      line-height: 1.35;
+      margin: 0 0 15px;
+      font-weight: 700;
+      font-family: "Montserrat", sans-serif;
+      letter-spacing: -.02em
+    }
+
+    .flow {
+      display: grid;
+      gap: 8px;
+      margin: 16px 0
+    }
+
+    .step {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: var(--soft);
+      border-radius: 14px;
+      padding: 11px 12px;
+      font-size: 15px
+    }
+
+    .num {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--dark);
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex: 0 0 auto;
+      margin-top: 1px
+    }
+
+    .key {
+      margin: 14px 0 0;
+      color: #333;
+      font-size: 14px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px
+    }
+
+    details {
+      margin-top: 14px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      list-style-type: '👉 ';
+    }
+    summary:marker{
+      margin-right:2px;
+    }
+    details[open] summary {
+      list-style-type: '👇 ';
+    }
+
+    .answer {
+      margin-top: 12px;
+      white-space: pre-line;
+      font-size: 15px;
+      color: #222
+    }
+
+    .practice {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 14px
+    }
+
+    .mini {
+      font-size: 14px;
+      color: #3f51b5;
+    }
+
+    .hidden {
+      display: none
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 15px;
+      text-align: center;
+      margin-top: 30px
+    }
+
+    .audio-box {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px
+    }
+
+    .audio-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-decoration: none;
+      border: 1px solid var(--dark);
+      border-radius: 16px;
+      padding: 14px 16px;
+      color: var(--dark);
+      font-weight: 700;
+      background: #fff
+    }
+
+    .audio-link span {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 400
+    }
+
+    .mode-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px
+    }
+
+    .card.flow-only details,
+    .card.flow-only .answer,
+    .card.flow-only .practice {
+      display: none
+    }
+
+    .random-focus {
+      outline: 3px solid #111;
+      scroll-margin-top: 170px
+    }
+
+    @media (max-width:719px) {
+      body {
+        font-size: 18px;
+        line-height: 1.65
+      }
+
+      .wrap {
+        padding: 16px
+      }
+
+      .title {
+        padding: 15px
+      }
+
+      h1 {
+        font-size: 29px;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .toolbar {
+        gap: 9px;
+        padding: 4px 0 14px
+      }
+
+      button {
+        font-size: 18px;
+        line-height: 18px;
+        padding: 12px 20px;
+      }
+
+      .guide {
+        padding: 20px;
+        border-radius: 20px
+      }
+
+      .guide h2 {
+        font-size: 22px
+      }
+
+      .guide p {
+        font-size: 17px
+      }
+
+      .card {
+        padding: 15px;
+        border-radius: 20px
+      }
+
+      .meta {
+        font-size: 14px;
+        margin-bottom: 12px
+      }
+
+      .q {
+        font-size: 23px;
+        line-height: 1.32;
+        margin-bottom: 18px
+      }
+
+      .step {
+        font-size: 18px;
+        line-height: 1.45;
+        padding: 14px 14px;
+        border-radius: 16px
+      }
+
+      .num {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+        margin-top: 0
+      }
+
+      .key {
+        font-size: 16px;
+        line-height: 1.55
+      }
+
+      summary {
+        font-size: 17px;
+        padding: 4px 0
+      }
+
+      .answer {
+        font-size: 18px;
+        line-height: 1.68
+      }
+
+      .mini {
+        font-size: 15px
+      }
+
+      .audio-link {
+        font-size: 17px;
+        padding: 15px
+      }
+
+      .audio-link span {
+        font-size: 13px
+      }
+    }
+
+    @media (min-width:720px) {
+      .grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .card.feature {
+        grid-column: 1/-1
+      }
+
+      .q {
+        font-size: 21px
+      }
+
+      .audio-box {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media print {
+      header {
+        position: static
+      }
+
+      .toolbar,
+      details {
+        display: none
+      }
+
+      .card {
+        break-inside: avoid;
+        box-shadow: none
+      }
+
+      body {
+        background: white
+      }
+
+      .wrap {
+        max-width: 100%;
+        padding: 12px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap title">
+      <h1>OPIC Flow Practice v2</h1>
+      <div class="toolbar">
+        <button class="active" data-filter="all">All</button>
+        <button data-filter="set1">Set 01</button>
+        <button data-filter="set2">Set 02</button>
+        <button data-filter="hobby">Hobby</button>
+        <button data-filter="routine">Routine</button>
+        <button data-filter="mindset">Mindset</button>
+        <button data-filter="experience">Experience</button>
+        <button id="flowOnly">Flow Only</button>
+        <button id="randomBtn">Random Question</button>
+        <button id="collapse">Close Answers</button>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="guide">
+      <h2>How to use this</h2>
+      <p><b>Step 1.</b>Speak the answer without reading the full script.</p>
+      <p><b>Step 2.</b> Open the answer and shadow it once.</p>
+      <p><b>Step 3.</b> Close it and speak again using only the flow.</p>
+      <p><b>Goal.</b> Do not memorize every word. Memorize the order of ideas.</p>
+      <div class="audio-box">
+        <a class="audio-link" href="https://naver.me/5WUARDHG" target="_blank" rel="noopener">Set 01 MP3 <span>Open
+            audio</span></a>
+        <a class="audio-link" href="https://naver.me/5Z15h722" target="_blank" rel="noopener">Set 02 MP3 <span>Open
+            audio</span></a>
+      </div>
+      <div class="mode-bar">
+        <button type="button" id="openSet1Audio">Play Set 01</button>
+        <button type="button" id="openSet2Audio">Play Set 02</button>
+      </div>
+    </section>
+    <section class="grid" id="cards"></section>
+    <p class="footer-note">Best rhythm: 3 questions in the morning, 5 questions while commuting, 2 questions before bed.
+    </p>
+  </main>
+  <script>
+    const data = [
+      {
+        set: 'set1', cat: 'mindset', title: 'Q1. Please introduce yourself.', flow: ['Name and job', 'Creative hobbies', 'Healthy habits and growth', 'English goal', 'Current life attitude'], keys: 'web designer / drawing / piano / personal growth / express my thoughts', answer: `Hi, my name is Amy.
+
+I work as a web designer and publisher in Korea.
+
+I enjoy creative hobbies like drawing and playing the piano.
+
+Recently, I’ve been trying to build healthier habits and focus more on personal growth.
+
+I also study English because I want to express my thoughts more naturally.
+
+These days, I’m trying to enjoy simple things in life and take care of myself more.`},
+      {
+        set: 'set1', cat: 'hobby', title: 'Q2. Tell me about your hobbies.', flow: ['Drawing and piano', 'Drawing expresses myself', 'Stopped because of perfectionism', 'Restarted with process mindset', 'Piano helps me relax'], keys: 'drawing / piano / perfection / process / Turkish March', answer: `I enjoy drawing and playing the piano.
+
+Drawing is something I really love because it helps me express myself.
+
+Actually, I stopped drawing for a while because I wanted everything to be perfect.
+
+But recently, I started again and realized enjoying the process is more important.
+
+I also enjoy piano practice.
+
+Lately, I’ve been practicing the Turkish March.
+
+Playing piano helps me relax and makes me feel proud of myself.`},
+      {
+        set: 'set1', cat: 'hobby', title: 'Q3. What do you usually do in your free time?', flow: ['Quiet activities', 'Drawing, piano, workout, yoga', 'Writing and organizing thoughts', 'Recharge', 'Small routines feel meaningful'], keys: 'quiet activities / recharge / meaningful routines', answer: `In my free time, I usually do quiet activities.
+
+I enjoy drawing, practicing piano, working out, or going to yoga classes.
+
+Sometimes I also spend time organizing my thoughts or writing.
+
+I like peaceful activities because they help me recharge.
+
+I think small routines make my daily life feel meaningful.`},
+      {
+        set: 'set1', cat: 'routine', title: 'Q4. Tell me about your exercise routine.', flow: ['Regular exercise', 'Yoga and simple workouts', 'Body and mind', 'Proud and energetic', 'Consistency over perfection'], keys: 'regularly / yoga / mental health / consistent', answer: `I try to exercise regularly.
+
+These days, I mostly do yoga and simple workouts.
+
+I learned that exercise is really important for both physical and mental health.
+
+After working out, I feel proud of myself and more energetic.
+
+It also helps me focus better during the day.
+
+Recently, I’ve been trying to stay consistent instead of being perfect.`},
+      {
+        set: 'set1', cat: 'routine', title: 'Q5. When do you usually work out?', flow: ['Prefer morning', 'Difficult at first', 'Morning is consistent', 'Evening changes easily', 'Productive and confident'], keys: 'morning workout / consistent / evening variables / confidence', answer: `I usually prefer morning workouts.
+
+At first, it was difficult because I felt tired.
+
+But later, I realized mornings are more consistent for me.
+
+In the evening, plans can easily change or I can feel too tired.
+
+Morning exercise helps me feel more productive and confident throughout the day.`},
+      {
+        set: 'set1', cat: 'mindset', title: 'Q6. Tell me about a recent change in your life.', flow: ['Mindset changed', 'Perfection focus before', 'Stopped what I loved', 'Now consistency and process', 'Happier and less stressed'], keys: 'mindset / perfection / consistency / process', answer: `Recently, my mindset changed a lot.
+
+Before, I focused too much on perfection.
+
+Because of that, I sometimes stopped doing things I actually loved.
+
+But now, I focus more on consistency and enjoying the process.
+
+I think this mindset made me happier and less stressed.`},
+      {
+        set: 'set1', cat: 'mindset', title: 'Q7. Tell me about something you recently learned.', flow: ['Learned about myself', 'No need to be perfect', 'Drawing and others’ opinions', 'Draw what I like', 'Creative and confident'], keys: 'not perfect / what I like / creative confidence', answer: `Recently, I learned something important about myself.
+
+I realized I don’t need to be perfect to enjoy something.
+
+For example, with drawing, I used to worry too much about what other people thought.
+
+But now, I just draw what I truly like.
+
+That change made me feel more creative and confident.`},
+      {
+        set: 'set1', cat: 'mindset', title: 'Q8. What do you do when you feel stressed?', flow: ['Take care of myself', 'Workout, piano, walk', 'Write thoughts', 'Do not avoid emotions', 'Process in healthy ways'], keys: 'stress / take care / process feelings / calmer', answer: `When I feel stressed, I try to take care of myself.
+
+Usually, I work out, play piano, or go for a walk.
+
+Sometimes I write down my thoughts too.
+
+I learned that avoiding emotions doesn’t really help.
+
+Instead, I try to process my feelings in healthy ways.
+
+After that, I usually feel calmer.`},
+      {
+        set: 'set1', cat: 'routine', title: 'Q9. Describe your daily routine.', flow: ['Simple weekdays', 'Wake up and work', 'After work habits', 'Workout, piano, English, drawing', 'Routine gives stability'], keys: 'weekday / after work / healthy habits / stable', answer: `My weekdays are pretty simple.
+
+I usually wake up, get ready, and go to work.
+
+After work, I try to focus on healthy habits.
+
+I work out, practice piano, study English, or draw.
+
+Before sleeping, I sometimes listen to English audio or review what I studied.
+
+I like routines because they make me feel stable.`},
+      {
+        set: 'set1', cat: 'routine', title: 'Q10. What do you usually do on weekends?', flow: ['Relax and recharge', 'Workout, piano, drawing', 'Library or quiet cafe', 'Slow mornings', 'Time with my cat'], keys: 'weekend / recharge / slow morning / cat', answer: `On weekends, I try to relax and recharge.
+
+I usually work out more, practice piano, and spend time drawing.
+
+Sometimes I go to a library or a quiet café.
+
+I enjoy slow mornings on weekends because they make me feel peaceful.
+
+I also like spending quiet time with my cat at home.`},
+      {
+        set: 'set1', cat: 'experience', title: 'Q11. Tell me about a memorable experience recently.', flow: ['Yoga experience', 'Saw someone’s hand', 'Looked at my hands', 'Felt grateful for health', 'Appreciate what I have'], keys: 'yoga / hands / health / gratitude', answer: `Recently, I had a meaningful experience during yoga.
+
+I saw someone with a disability and suddenly looked at my own hands.
+
+At that moment, I felt grateful for being healthy.
+
+It made me realize I should appreciate what I already have.
+
+Since then, I’ve been trying to live with more gratitude.`},
+      {
+        set: 'set1', cat: 'hobby', title: 'Q12. Tell me about a hobby you stopped and restarted.', flow: ['Drawing restarted', 'Stopped due to perfection', 'Cared about opinions', 'Started again', 'Draw for enjoyment'], keys: 'drawing / stopped / restarted / enjoy / not impress', answer: `One hobby I restarted is drawing.
+
+I stopped for a while because I worried too much about doing it perfectly.
+
+I also cared too much about what other people thought.
+
+But recently, I started again.
+
+Now, I draw what I truly enjoy instead of trying to impress people.
+
+It feels much more fun and natural now.`},
+      {
+        set: 'set1', cat: 'mindset', title: 'Q13. What makes you happy these days?', flow: ['Simple things', 'Workout, piano, drawing, English', 'Life I dreamed of', 'Gratitude', 'Enjoy present'], keys: 'simple happiness / dreamed life / present', answer: `Simple things make me happy these days.
+
+Working out, playing piano, drawing, and studying English.
+
+Recently, I realized I’m already living the life I once dreamed about.
+
+That made me feel much more grateful.
+
+Now, I try to enjoy the present instead of always chasing the next goal.`},
+      {
+        set: 'set1', cat: 'mindset', title: 'Q14. What are your future goals?', flow: ['Healthier and creative', 'Improve English and creative skills', 'Drawing and piano', 'Meaningful balanced life', 'Enjoy process and grow'], keys: 'future goal / healthier / creative / balanced', answer: `My goal is to become healthier and more creative.
+
+I want to keep improving my English and creative skills.
+
+I also want to continue drawing and playing piano.
+
+Most importantly, I want to live a meaningful and balanced life.
+
+I want to become someone who enjoys the process and keeps growing.`},
+      {
+        set: 'set1', cat: 'mindset', title: 'Q15. How have you changed over time?', flow: ['Changed a lot', 'Perfection and opinions before', 'Stress', 'Focus on myself', 'Consistency over perfection'], keys: 'changed / perfection / opinions / calmer / confident', answer: `I think I changed a lot over time.
+
+Before, I cared too much about perfection and other people’s opinions.
+
+Because of that, I often felt stressed.
+
+But now, I try to focus more on myself and what truly matters.
+
+I learned that consistency is more important than perfection.
+
+I think I’m becoming calmer and more confident.`},
+      {
+        set: 'set2', cat: 'experience', title: 'Q1. Tell me about a difficult time in your life and how you handled it.', flow: ['Perfectionism was difficult', 'Stopped what I loved', 'Drawing example', 'Fear of disappointment', 'Changed mindset', 'Process and starting'], keys: 'difficult time / perfectionism / drawing / process', answer: `One difficult thing for me was dealing with perfectionism.
+
+I used to stop doing things I loved because I wanted everything to be perfect.
+
+For example, I stopped drawing for a long time.
+
+I was afraid of disappointing myself or not being good enough.
+
+But recently, I changed my mindset.
+
+Now, I focus more on enjoying the process and just starting.
+
+That change helped me feel happier and less stressed.`},
+      {
+        set: 'set2', cat: 'mindset', title: 'Q2. Tell me about something you recently realized.', flow: ['Realized happiness', 'Compared myself before', 'Felt behind', 'Workout changed thought', 'Dreamed life now', 'Grateful'], keys: 'realization / comparison / workout / dreamed life', answer: `Recently, I realized something important about happiness.
+
+I used to compare myself to other people a lot.
+
+Sometimes I felt behind in life.
+
+But one day while working out, I suddenly realized something.
+
+I’m already living the life I once dreamed about.
+
+I have meaningful work, hobbies I enjoy, and healthier habits.
+
+That realization made me feel much more grateful.`},
+      {
+        set: 'set2', cat: 'experience', title: 'Q3. Describe a memorable place you often go to.', flow: ['Yoga studio', 'Relax and clear mind', 'Peaceful atmosphere', 'Feel calmer after', 'New life ideas', 'Mental reset'], keys: 'yoga studio / peaceful / reset mentally', answer: `One place I often go to is my yoga studio.
+
+I like it because it helps me relax and clear my mind.
+
+Usually, the atmosphere is very peaceful.
+
+After yoga, I feel calmer and healthier.
+
+Sometimes, I even get new ideas about my life during class.
+
+That place became important to me because it helps me reset mentally.`},
+      {
+        set: 'set2', cat: 'routine', title: 'Q4. Tell me about a time you changed your opinion.', flow: ['Changed opinion about exercise', 'Thought morning was not for me', 'Tired before', 'Tried again', 'Morning better for consistency', 'Consistency over timing'], keys: 'changed opinion / morning workout / consistency', answer: `I changed my opinion about exercise.
+
+Before, I thought morning workouts were not for me.
+
+I felt tired and thought it didn’t fit my lifestyle.
+
+But after trying again, I realized mornings are actually better for consistency.
+
+In the evening, I often get tired or busy.
+
+Morning workouts helped me feel more energetic and productive.
+
+So now, I think consistency matters more than perfect timing.`},
+      {
+        set: 'set2', cat: 'hobby', title: 'Q5. Tell me about something you enjoy doing alone.', flow: ['Enjoy alone time', 'Draw, piano, walk', 'Organize thoughts', 'Creative activities calm me', 'Discover ideas', 'Quiet time matters'], keys: 'alone time / quiet / organize thoughts / creative', answer: `I enjoy spending time alone a lot.
+
+Usually, I draw, practice piano, or go for a walk.
+
+I think being alone helps me organize my thoughts.
+
+Also, creative activities make me feel calm.
+
+Sometimes I even discover new ideas about myself.
+
+For me, quiet time is very important.`},
+      {
+        set: 'set2', cat: 'routine', title: 'Q6. Describe a recent problem and how you solved it.', flow: ['Workout routine problem', 'Morning exercise first', 'Tired all day', 'Needed adjustment', 'Switched routine', 'Learned flexibility'], keys: 'problem / routine / adjust / flexibility', answer: `Recently, I struggled with my workout routine.
+
+At first, I tried exercising in the morning.
+
+But after a while, I realized I felt tired all day.
+
+I thought something was wrong with me.
+
+Later, I realized I simply needed to adjust my routine.
+
+So I switched to evening workouts for a while.
+
+That experience taught me that flexibility is important.`},
+      {
+        set: 'set2', cat: 'experience', title: 'Q7. Tell me about someone important in your life.', flow: ['Parents are important', 'Appreciate them more', 'Health and life realization', 'Gratitude', 'Express love more', 'Family meaning'], keys: 'parents / gratitude / express love / family', answer: `My parents are very important to me.
+
+As I got older, I started appreciating them more.
+
+Recently, I realized how grateful I am for my health and life.
+
+That made me think more about my parents too.
+
+I want to express my love and gratitude more often.
+
+I think family becomes more meaningful as time passes.`},
+      {
+        set: 'set2', cat: 'routine', title: 'Q8. Tell me about something you are trying to improve.', flow: ['Improving English', 'Speak naturally and confidently', 'Practice every day', 'Listen, repeat, record', 'Consistency over talent', 'Feel improvement'], keys: 'English / natural / repeat / record / consistency', answer: `These days, I’m trying to improve my English.
+
+I want to speak more naturally and confidently.
+
+So I practice every day.
+
+I listen to audio, repeat sentences, and record my voice.
+
+I think consistency is more important than talent.
+
+Little by little, I feel myself improving.`},
+      {
+        set: 'set2', cat: 'routine', title: 'Q9. Tell me about a healthy habit you have.', flow: ['Regular exercise', 'Body and mind', 'Confidence and focus', 'Manage stress', 'Stay consistent', 'Habits change life'], keys: 'healthy habit / exercise / stress / consistency', answer: `One healthy habit I’m trying to keep is regular exercise.
+
+I realized exercise affects both my body and mind.
+
+After working out, I feel more confident and focused.
+
+It also helps me manage stress better.
+
+Even when I don’t feel motivated, I try to stay consistent.
+
+I think healthy habits slowly change your life.`},
+      {
+        set: 'set2', cat: 'mindset', title: 'Q10. Tell me about something that changed your perspective.', flow: ['Drawing changed perspective', 'Thought style was wrong', 'Softer, prettier drawings', 'Thought lack of skill', 'Realized interpretation', 'More confidence'], keys: 'drawing / perspective / interpretation / confidence', answer: `Drawing changed my perspective recently.
+
+I used to think my drawing style was wrong.
+
+Because my drawings looked softer or prettier than real life.
+
+I thought I lacked skill.
+
+But later, I realized it was actually my own artistic interpretation.
+
+That helped me feel more confident.
+
+Now, I enjoy drawing much more.`},
+      {
+        set: 'set2', cat: 'experience', title: 'Q11. Describe a recent activity you enjoyed.', flow: ['Piano practice', 'Rented grand piano room', 'Compared myself at first', 'Realized I work hard too', 'Piano recharges me', 'Meaningful experience'], keys: 'piano / grand piano / comparison / recharge', answer: `Recently, I enjoyed practicing piano.
+
+I rented a grand piano room and spent time practicing.
+
+At first, I felt a little awkward because I compared myself to better players.
+
+But while playing, I realized something.
+
+I’ve been working hard too.
+
+Piano helps me recharge after a long day.
+
+So the experience became very meaningful.`},
+      {
+        set: 'set2', cat: 'mindset', title: 'Q12. Tell me about a personal goal you have.', flow: ['Healthier and balanced', 'Body and mind', 'Regular workout and routines', 'Creative hobbies', 'Growth means happier little by little'], keys: 'personal goal / balanced / body and mind / growth', answer: `One of my personal goals is becoming healthier and more balanced.
+
+I want to take care of both my body and mind.
+
+So I try to work out regularly and build healthy routines.
+
+I also want to keep improving my creative hobbies.
+
+For me, growth means becoming healthier and happier little by little.`},
+      {
+        set: 'set2', cat: 'mindset', title: 'Q13. Describe something you learned from experience.', flow: ['Planning is not enough', 'Too much thinking before', 'Action is important', 'Start before ready', 'Reality feels real', 'Changed approach'], keys: 'planning / action / start / before ready', answer: `I learned that planning alone is not enough.
+
+Before, I spent too much time thinking and planning.
+
+But recently, I realized action is more important.
+
+Even if I’m not fully ready, I try to start anyway.
+
+Once I actually do something, it feels more real.
+
+That mindset changed the way I approach goals.`},
+      {
+        set: 'set2', cat: 'experience', title: 'Q14. Tell me about a time you felt proud of yourself.', flow: ['Proud after exercise consistency', 'Difficult at first', 'Positive changes', 'More energy and confidence', 'Trusted myself', 'Proud feeling'], keys: 'proud / exercise / consistency / self-trust', answer: `Recently, I felt proud after staying consistent with exercise.
+
+At first, it was really difficult.
+
+But after a few weeks, I noticed positive changes.
+
+I had more energy and felt more confident.
+
+Most importantly, I started trusting myself more.
+
+That feeling made me proud.`},
+      {
+        set: 'set2', cat: 'mindset', title: 'Q15. What kind of person do you want to become?', flow: ['Calm, healthy, creative', 'Express through art', 'Speak thoughtfully', 'Words have meaning', 'Enjoy life and grow'], keys: 'calm / healthy / creative / thoughtful / grow', answer: `I want to become someone calm, healthy, and creative.
+
+I want to express myself through drawing, piano, and writing.
+
+I also want to be someone who speaks thoughtfully.
+
+Instead of talking too much, I want my words to have meaning.
+
+Most importantly, I want to enjoy life while continuing to grow.`}
+    ];
+    const cards = document.getElementById('cards');
+    function render(filter = 'all') {
+      cards.innerHTML = '';
+      data.filter(d => filter === 'all' || d.set === filter || d.cat === filter).forEach((d, i) => {
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.dataset.set = d.set; el.dataset.cat = d.cat;
+        el.innerHTML = `<div class="meta"><span>${d.set.toUpperCase()} · ${d.cat}</span><span>${i + 1}</span></div>
+      <h3 class="q">${d.title}</h3>
+      <div class="flow">${d.flow.map((s, idx) => `<div class="step"><span class="num">${idx + 1}</span><span>${s}</span></div>`).join('')}</div>
+      <div class="key"><b>Key:</b> ${d.keys}</div>
+      <div class="practice"><span class="mini"><b>Practice</b><br> flow → speak(40 to 60 sec) → open answer → shadow → close → speak again</span></div>
+      <details><summary>Full answer</summary><div class="answer">${d.answer}</div></details>`;
+        cards.appendChild(el);
+      });
+      if (document.body.classList.contains('flow-mode')) {
+        document.querySelectorAll('.card').forEach(c => c.classList.add('flow-only'));
+      }
+    }
+    render();
+    document.querySelectorAll('.toolbar button[data-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.toolbar button[data-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active'); render(btn.dataset.filter);
+      });
+    });
+    document.getElementById('flowOnly').addEventListener('click', () => {
+      document.body.classList.toggle('flow-mode');
+      const on = document.body.classList.contains('flow-mode');
+      document.querySelectorAll('.card').forEach(c => c.classList.toggle('flow-only', on));
+      document.getElementById('flowOnly').classList.toggle('active', on);
+      if (on) { document.querySelectorAll('details').forEach(d => d.open = false); }
+    });
+    document.getElementById('randomBtn').addEventListener('click', () => {
+      const visible = [...document.querySelectorAll('.card')];
+      if (!visible.length) return;
+      document.querySelectorAll('.random-focus').forEach(c => c.classList.remove('random-focus'));
+      const pick = visible[Math.floor(Math.random() * visible.length)];
+      pick.classList.add('random-focus');
+      pick.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    document.getElementById('openSet1Audio').addEventListener('click', () => window.open('https://naver.me/5WUARDHG', '_blank', 'noopener'));
+    document.getElementById('openSet2Audio').addEventListener('click', () => window.open('https://naver.me/5Z15h722', '_blank', 'noopener'));
+    document.getElementById('collapse').addEventListener('click', () => {
+      document.querySelectorAll('details').forEach(d => d.open = false);
+    });
+  </script>
+</body>
+
+</html>
